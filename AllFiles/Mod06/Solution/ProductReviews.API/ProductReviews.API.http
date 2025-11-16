@@ -1,0 +1,14 @@
+﻿@ProductReviews.API_HostAddress = https://localhost:5001
+
+POST {{ProductReviews.API_HostAddress}}/review
+Content-Type: application/json
+
+{
+      "author": "pierre",
+      "email": "pierre@baker.com",
+      "text": "This product is fairly good",
+      "score": 4,
+      "productId":1
+   }
+
+###

@@ -1,0 +1,21 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:58845/",
+      "sslPort": 44338
+    }
+  },
+  "profiles": {
+    "ProductReviews.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_DATABASE": "Server=.\\SQLEXPRESS;Database=Mod1DB;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=true"
+      },
+      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+    }
+  }
+}

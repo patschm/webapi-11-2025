@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProductsReviews.DAL\ProductsReviews.DAL.EntityFramework.csproj" />
+    <ProjectReference Include="..\ProductsReviews.Interfaces\ProductsReviews.DAL.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

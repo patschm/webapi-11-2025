@@ -1,0 +1,14 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+    <div class="grid-container">
+        <input type="hidden" formControlName="id" />
+        <div class="grid-item"><label for="txtName">Name</label></div>
+        <div class="grid-item">
+            <input id="txtName" type="text" formControlName="name" />
+            <span [hidden]="!formGroup.controls['name'].errors || formGroup.controls['name'].pristine">Name is required</span>
+        </div>
+        <div class="grid-item"><label for="txtImage">Image</label></div>
+        <div class="grid-item"><input id="txtImage" type="text" formControlName="image" /></div>
+        <div class="grid-item"></div>
+        <div class="grid-item"><button type="submit" [disabled]="formGroup.pristine || !formGroup.valid">Save</button></div>   
+    </div>
+</form>

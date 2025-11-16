@@ -1,0 +1,30 @@
+@ControllerWeb_HostAddress = https://localhost:7297
+@id = 56
+
+GET {{ControllerWeb_HostAddress}}/brands
+Accept: application/json
+###
+
+POST {{ControllerWeb_HostAddress}}/brands
+Content-Type: application/json
+
+{
+  "name":"Test"
+}
+###
+
+GET {{ControllerWeb_HostAddress}}/brands/{{id}}
+Accept: application/json
+###
+
+PUT {{ControllerWeb_HostAddress}}/brands/{{id}}
+Content-Type: application/json
+
+{
+  "name":"Test2"
+}
+###
+
+DELETE {{ControllerWeb_HostAddress}}/brands/{{id}}
+
+###

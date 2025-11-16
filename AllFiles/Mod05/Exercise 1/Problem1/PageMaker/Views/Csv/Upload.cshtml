@@ -1,0 +1,19 @@
+﻿@using PageMaker.Interfaces
+@model Stream
+@inject ITableService ts
+<html>
+    <head>
+        <title>Csv Uploader</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body{
+                margin:10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Result</h1>
+        @await ts.GenerateTableAsync(Model)
+
+    </body>
+</html>

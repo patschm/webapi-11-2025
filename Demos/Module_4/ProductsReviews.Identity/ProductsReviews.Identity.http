@@ -1,0 +1,6 @@
+@ProductsReviews.Identity_HostAddress = http://localhost:5159
+
+GET {{ProductsReviews.Identity_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

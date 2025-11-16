@@ -1,0 +1,50 @@
+<Window x:Class="ProductReviews.Client.Wpf.ProductGroupOverviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProductReviews.Client.Wpf"
+        xmlns:vm="clr-namespace:ProductReviews.Client.Wpf.ViewModels"
+        xmlns:utils="clr-namespace:ProductReviews.Client.Wpf.Utils"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vm:ProductGroupOverviewViewModel , IsDesignTimeCreatable=False}"
+        Title="ProductGroupOverviewWindow" Height="600" Width="600" Loaded="Window_Loaded">
+    <Window.Resources>
+        <utils:HttpConverter x:Key="httpConverter"></utils:HttpConverter>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock FontSize="36">Product Groups</TextBlock>
+        </StackPanel>
+        <ListView Grid.Row="1" ItemsSource="{Binding ProductGroups}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="1" Width="100" Height="100">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding Image, Converter={StaticResource httpConverter}}"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Grid.Column="2"  VerticalAlignment="Center" FontSize="24" Text="{Binding Name}"></TextBlock>
+                        <Button Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"  FontSize="24" Width="100" Tag="{Binding}" Click="Button_Edit">Edit</Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Margin="10, 20" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button IsEnabled="{Binding PreviousEnabled}" Width="100" Command="{Binding Previous}">Previous</Button>
+            <TextBlock Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="{Binding Page}"></TextBlock>
+            <Button IsEnabled="{Binding NextEnabled}" Width="100" Command="{Binding Next}">Next</Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,38 @@
+@MinimalWeb_HostAddress = https://localhost:7008
+@id = 56
+
+GET {{MinimalWeb_HostAddress}}/reviews
+Accept: application/json
+###
+
+POST {{MinimalWeb_HostAddress}}/reviews
+Content-Type: application/json
+
+{
+    "author":"Jan Klaasen",
+    "email":"jk@poppekast.nl",
+    "text": "Pretty Good",
+    "score": 4
+    "productId": 1
+}
+###
+
+GET {{MinimalWeb_HostAddress}}/reviews/{{id}}
+Accept: application/json
+###
+
+PUT {{MinimalWeb_HostAddress}}/reviews/{{id}}
+Content-Type: application/json
+
+{
+    "author":"Jan Klaasen",
+    "email":"jk@poppenkast.nl",
+    "text": "Pretty Good",
+    "score": 4
+    "productId": 1
+}
+###
+
+DELETE {{MinimalWeb_HostAddress}}/reviews/{{id}}
+
+###

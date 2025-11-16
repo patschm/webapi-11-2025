@@ -1,0 +1,30 @@
+@MinimalWeb_HostAddress = https://localhost:7006
+@id = 56
+
+GET {{MinimalWeb_HostAddress}}/productgroups
+Accept: application/json
+###
+
+POST {{MinimalWeb_HostAddress}}/productgroups
+Content-Type: application/json
+
+{
+  "name":"Test"
+}
+###
+
+GET {{MinimalWeb_HostAddress}}/productgroups/{{id}}
+Accept: application/json
+###
+
+PUT {{MinimalWeb_HostAddress}}/productgroups/{{id}}
+Content-Type: application/json
+
+{
+  "name":"Test2"
+}
+###
+
+DELETE {{MinimalWeb_HostAddress}}/productgroups/{{id}}
+
+###

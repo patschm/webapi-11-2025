@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="brandlist">
+        
+    </div>
+
+    <script>
+        async function loadBrands() {
+            let blist = document.getElementById("brandlist")
+            let result = await fetch("https://localhost:7297/brands");
+            if (result.ok) {
+                var data = await result.json();
+                let frag = document.createDocumentFragment();
+                for (let i = 0; i < data.length; i++) {
+                    let h2 = document.createElement("h2");
+                    h2.textContent = `[${data[i].id}] ${data[i].name}`;
+                    frag.appendChild(h2);
+                }
+                blist.appendChild(frag);
+            }
+        }
+    </script>
+    <script>
+        loadBrands();
+    </script>
+</body>
+</html>

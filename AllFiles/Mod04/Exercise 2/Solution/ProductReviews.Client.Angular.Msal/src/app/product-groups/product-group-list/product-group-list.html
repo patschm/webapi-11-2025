@@ -1,0 +1,22 @@
+<h1>Product Groups Overview</h1>
+<table>
+    <thead>
+        <th></th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pg of productGroups$ | async">
+            <td>
+                <a [routerLink]="['/productgroup', pg.id]" routerLinkActive="router-link-active" >
+                    <button>Edit</button>
+                </a>
+            </td>
+            <td>
+                <img width="100px" height="100px" src="https://angular-training.azureedge.net/{{pg.image}}" [alt]="pg.name">
+            </td>
+            <td>{{pg.name}}</td>
+        </tr>
+    </tbody>
+</table>
+

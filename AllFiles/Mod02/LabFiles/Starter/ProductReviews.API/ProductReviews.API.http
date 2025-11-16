@@ -1,0 +1,33 @@
+@ProductReviews.API_HostAddress = https://localhost:7298
+@groupId = 14
+
+GET {{ProductReviews.API_HostAddress}}/productgroup?page=1&count=20
+Accept: application/json
+
+###
+
+POST {{ProductReviews.API_HostAddress}}/productgroup
+Content-Type: application/json
+
+{
+  "Name":"Test Group"
+}
+
+###
+
+GET {{ProductReviews.API_HostAddress}}/productgroup/{{groupId}}
+
+###
+
+DELETE {{ProductReviews.API_HostAddress}}/productgroup/{{groupId}}
+
+###
+
+PUT {{ProductReviews.API_HostAddress}}/productgroup/{{groupId}}
+Content-Type: application/json
+
+{
+  "Name":"Modified Group"
+}
+
+###
