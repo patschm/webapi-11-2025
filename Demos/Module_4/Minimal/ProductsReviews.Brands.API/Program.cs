@@ -1,8 +1,10 @@
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProductsReviews.Brands.API.Arguments;
 using ProductsReviews.Brands.API.DTO;
+using ProductsReviews.Brands.API.Routes;
 using ProductsReviews.DAL.Entities;
 using ProductsReviews.DAL.EntityFramework;
 using ProductsReviews.DAL.Interfaces;
@@ -13,6 +15,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ProductReviewsContext>(opts => opts.UseInMemoryDatabase("productsDb"));
+builder.Services.AddDbContext<AuthenticationContext>(opts => {
+    opts.UseInMemoryDatabase(@"aspnetauth");
+});
+builder.Services.AddIdentityApiEndpoints<IdentityUser>(opts => {
+    opts.Password.RequiredLength = 5;
+    opts.Password.RequireNonAlphanumeric = false;
+}).AddEntityFrameworkStores<AuthenticationContext>();
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+
 builder.Services.AddTransient<IBrandRepository, BrandRepository>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<BrandsProfile>());
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
@@ -30,65 +43,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGet("/brands", async (IMapper mapper, IBrandRepository repo, [AsParameters]BrandParams request) =>
-{
-    var query = await repo.GetAsync(request.page, request.count);
-    return mapper.ProjectTo<BrandDTO>(query.AsQueryable());
-})
-.WithName("GetBrands")
-.WithOpenApi();
-//.RequireAuthorization()
-
-app.MapGet("/brands/{id}", async (IMapper mapper, IBrandRepository repo, int id) =>
-{
-    var brand = await repo.GetByIdAsync(id);
-    if (brand == null) return Results.NotFound(new { Error = $"Not brand with {id} exists" });
-    var dto = mapper.Map<BrandDTO>(brand);
-    return Results.Ok(dto);
-})
-.WithName("GetBrand")
-.WithOpenApi();
-
-app.MapPost("/brands", async (IMapper mapper, IBrandRepository repo, IValidator<BrandDTO> validator, BrandDTO brand) =>
-{
-    var valResult = validator.Validate(brand);
-    if (!valResult.IsValid) return Results.ValidationProblem(valResult.ToDictionary());
-    var dbBrand = mapper.Map<Brand>(brand);
-    dbBrand = await repo.AddAsync(dbBrand);
-    brand = mapper.Map<BrandDTO>(dbBrand);
-    return Results.CreatedAtRoute("GetBrand", new {id = dbBrand.Id }, brand);
-})
-.WithName("PostBrand")
-.WithOpenApi();
-
-app.MapPut("/brands/{id}", async (IMapper mapper, IBrandRepository repo, IValidator<BrandDTO> validator, int id, BrandDTO brand) =>
-{
-    var valResult = validator.Validate(brand);
-    if (!valResult.IsValid) return Results.ValidationProblem(valResult.ToDictionary());
-    var dbBrand = await repo.GetByIdAsync(id);
-    if (dbBrand == null)
-    {
-        return Results.NotFound();
-    }
-    mapper.Map(brand, dbBrand);
-    await repo.UpdateAsync(dbBrand);
-    return Results.Accepted();
-})
-.WithName("PutBrand")
-.WithOpenApi();
-
-app.MapDelete("/brands/{id}", async (IMapper mapper, IBrandRepository repo, int id) =>
-{
-    var dbBrand = await repo.GetByIdAsync(id);
-    if (dbBrand == null)
-    {
-        return Results.NotFound();
-    }
-    await repo.DeleteAsync(id);
-    return Results.NoContent();
-})
-.WithName("DeleteBrand")
-.WithOpenApi();
+app.MapIdentityApi<IdentityUser>();
+app.MapGroup("/brands").MapBrandsApi().RequireAuthorization();
 
 app.Run();

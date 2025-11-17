@@ -8,6 +8,7 @@ using ProductsReviews.DAL.EntityFramework;
 using ProductsReviews.DAL.Interfaces;
 using ProductsReviews.DAL.Repositories;
 using System.Reflection;
+using ProductsReviews.Products.API.Routes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,63 +32,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/products", async (IMapper mapper, IProductRepository repo, [AsParameters]ProductParams request) =>
-{
-    var query = await repo.GetAsync(request.page, request.count);
-    return mapper.ProjectTo<ProductDTO>(query.AsQueryable());
-})
-.WithName("GetProducts")
-.WithOpenApi();
-
-app.MapGet("/products/{id}", async (IMapper mapper, IProductRepository repo, int id) =>
-{
-    var product = await repo.GetByIdAsync(id);
-    if (product == null) return Results.NotFound(new { Error = $"Not Product with {id} exists" });
-    var dto = mapper.Map<ProductDTO>(product);
-    return Results.Ok(dto);
-})
-.WithName("GetProduct")
-.WithOpenApi();
-
-app.MapPost("/products", async (IMapper mapper, IProductRepository repo, IValidator<ProductDTO> validator, ProductDTO product) =>
-{
-    var valResult = validator.Validate(product);
-    if (!valResult.IsValid) return Results.ValidationProblem(valResult.ToDictionary());
-    var dbProduct = mapper.Map<Product>(product);
-    dbProduct = await repo.AddAsync(dbProduct);
-    product = mapper.Map<ProductDTO>(dbProduct);
-    return Results.CreatedAtRoute("GetProduct", new {id = dbProduct.Id }, product);
-})
-.WithName("PostProduct")
-.WithOpenApi();
-
-app.MapPut("/products/{id}", async (IMapper mapper, IProductRepository repo, IValidator<ProductDTO> validator, int id, ProductDTO product) =>
-{
-    var valResult = validator.Validate(product);
-    if (!valResult.IsValid) return Results.ValidationProblem(valResult.ToDictionary());
-    var dbProduct = await repo.GetByIdAsync(id);
-    if (dbProduct == null)
-    {
-        return Results.NotFound();
-    }
-    mapper.Map(product, dbProduct);
-    await repo.UpdateAsync(dbProduct);
-    return Results.Accepted();
-})
-.WithName("PutProduct")
-.WithOpenApi();
-
-app.MapDelete("/products/{id}", async (IMapper mapper, IProductRepository repo, int id) =>
-{
-    var dbProduct = await repo.GetByIdAsync(id);
-    if (dbProduct == null)
-    {
-        return Results.NotFound();
-    }
-    await repo.DeleteAsync(id);
-    return Results.NoContent();
-})
-.WithName("DeleteProduct")
-.WithOpenApi();
+app.MapGroup("/products").MapProductsApi();
 
 app.Run();

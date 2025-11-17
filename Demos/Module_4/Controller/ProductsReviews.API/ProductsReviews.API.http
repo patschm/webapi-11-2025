@@ -12,7 +12,6 @@ Content-Type: application/json
 # @name login
 POST {{ControllerWeb_HostAddress}}/login
 Content-Type: application/json
-
 {
   "email":"test@pasit.nl",
   "password":"Test_12345"
