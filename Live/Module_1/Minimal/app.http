@@ -1,0 +1,14 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@Minimal_HostAddress = https://localhost:7000
+
+GET {{Minimal_HostAddress}}/ddd?x=28
+Accept: application/json
+
+###
+
+POST {{Minimal_HostAddress}}/ppp
+Content-Type:application/json
+{
+  "ID":0,
+  "Name": "Patrick"
+}

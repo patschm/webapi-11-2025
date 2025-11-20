@@ -1,0 +1,6 @@
+@GeneratedMinimal_HostAddress = http://localhost:5062
+
+GET {{GeneratedMinimal_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

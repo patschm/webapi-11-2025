@@ -29,13 +29,13 @@ public class BrandController : ControllerBase
     }
 
     // Alternatively: [HttpGet("{id}")]
-    [HttpGet]
-    [Route("{id:int}")]
+    [HttpGet("{id:int}")]
+    //[Route("{id:int}")]
     // Merely for documentation. Swagger uses them to specify the return values
     // since it cannot determine the response type (ActionResult is generic)
     [ProducesResponseType<BrandDTO>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetBrand([FromRoute]int id)
+    public async Task<IActionResult> GetBrand([FromRoute]int id)
     {
         var brand = await _dbContext.Brands.FindAsync(id);
         if (brand == null) return NotFound(new { Error = $"Not brand with {id} exists" });
@@ -46,7 +46,7 @@ public class BrandController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> CreateBrand(BrandDTO brand)
+    public async Task<ActionResult> CreateBrand([FromBody]BrandDTO brand)
     {
         if (!ModelState.IsValid)
         {

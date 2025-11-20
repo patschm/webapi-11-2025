@@ -2,6 +2,7 @@
 using ControllerWeb.Controllers;
 using ControllerWeb.DTO;
 using ControllerWeb.Filters;
+using ControllerWeb.Formatters;
 using ControllerWeb.Middleware;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Data.Sqlite;
@@ -35,10 +36,11 @@ namespace ControllerWeb
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile<ProductsProfile>());
             builder.Services.AddScoped<CustomFilterAttribute>();
 
-            builder.Services.AddControllers().AddXmlSerializerFormatters();
-            //builder.Services.AddControllers(options => {
-            //    options.OutputFormatters.Add(new CsvFormatter());
-            //});
+           // builder.Services.AddControllers().AddXmlSerializerFormatters();
+            builder.Services.AddControllers(options =>
+            {
+                options.OutputFormatters.Add(new CsvFormatter());
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -51,6 +53,7 @@ namespace ControllerWeb
             });
             app.UseWhen(ctx => ctx.Request.Query.ContainsKey("ping"), bld =>
             {
+             
                 bld.Run(async ctx =>
                 {
                     await ctx.Response.WriteAsync("PONG!!!");
@@ -62,11 +65,16 @@ namespace ControllerWeb
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else
+            {
+                app.UseExceptionHandler("error");
+            }
 
             // Custom Middleware 1
             app.Use(async (context, next) => {
                 var logger = app.Services.GetRequiredService<ILogger<Program>>();
                 logger.LogInformation("Custom1 Incoming...");
+                //context.Request.Headers
                 await next(context);
                 logger.LogInformation("Custom1 Outgoing...");
             });
@@ -79,6 +87,7 @@ namespace ControllerWeb
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            //app.UseAuthentication();
 
             // Route Tables
             // Conventional Routing. Not recommended. Most commonly used in MVC

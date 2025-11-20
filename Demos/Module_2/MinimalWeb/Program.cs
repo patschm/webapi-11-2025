@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ProductReviewsContext>(opts => opts.UseInMemoryDatabase("productsDb"));
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<ProductsProfile>());
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+//builder.Services.AddControllers().AddXmlSerializerFormatters();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -41,6 +42,12 @@ app.MapGet("/brands", (IMapper mapper, ProductReviewsContext context, [AsParamet
 {
     var query = context.Brands.Skip((request.page - 1) * request.count).Take(request.count);
     return mapper.ProjectTo<BrandDTO>(query);
+})
+.AddEndpointFilter(async (ctx, next) => {
+    Console.WriteLine("Before Endpoint");
+    await next(ctx);
+    Console.WriteLine("After Endpoint");
+    return ValueTask.CompletedTask;
 })
 .WithName("GetBrands")
 .WithOpenApi();

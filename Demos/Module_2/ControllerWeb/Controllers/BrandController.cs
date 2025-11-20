@@ -1,6 +1,7 @@
 using AutoMapper;
 using ControllerWeb.DTO;
 using ControllerWeb.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Products.DAL.Database;
 using Products.DAL.Entities;
@@ -31,8 +32,7 @@ namespace ControllerWeb.Controllers
         }
 
         // Alternatively: [HttpGet("{id}")]
-        [HttpGet]
-        [Route("{id:int}")]
+        [HttpGet("{id:int}")]
         // Merely for documentation. Swagger uses them to specify the return values
         // since it cannot determine the response type (ActionResult is generic)
         [ProducesResponseType<BrandDTO>(StatusCodes.Status200OK)]

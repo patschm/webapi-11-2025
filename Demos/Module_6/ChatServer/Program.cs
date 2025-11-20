@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSignalR();
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(p =>
     p.AllowAnyHeader()
      .AllowAnyMethod()

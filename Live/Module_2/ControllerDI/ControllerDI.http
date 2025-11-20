@@ -1,0 +1,7 @@
+@ControllerDI_HostAddress = https://localhost:7230
+
+GET {{ControllerDI_HostAddress}}/counter
+
+Accept: application/json
+
+###

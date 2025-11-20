@@ -18,7 +18,14 @@ public class Custom2
     public async Task Invoke(HttpContext httpContext)
     {
         _logger.LogInformation("Custom2 Incoming...");
-        await _next(httpContext);
+        //try
+        {
+            await _next(httpContext);
+        }
+        //catch (Exception ex)
+        //{
+            
+        //}
         _logger.LogInformation("Custom2 Outgoing...");
     }
 }

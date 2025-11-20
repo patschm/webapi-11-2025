@@ -22,8 +22,10 @@ async Task ReadProductGroupAsync()
     var client = new HttpClient();
     client.BaseAddress = new Uri("https://localhost:7298/");
     var response = await client.GetAsync($"productgroup?page=1&count=10");
+    //response.Headers.
     if (response.IsSuccessStatusCode)
     {
+        Console.WriteLine(response.Content.Headers.ContentLength);
         var stringdata = await response.Content.ReadAsStringAsync();
         var data = JsonSerializer.Deserialize<List<ProductGroup>>(stringdata, serOpts);
         ShowData(data);

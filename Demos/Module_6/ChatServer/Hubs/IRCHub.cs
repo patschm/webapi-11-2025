@@ -23,7 +23,6 @@ public class IRCIIHub : Hub
         if (nick != null) await LeaveAllChannels(nick);
         await base.OnDisconnectedAsync(ex);
     }
-
     // nick MyName
     public async Task SetNick(string newNick)
     {
@@ -48,7 +47,6 @@ public class IRCIIHub : Hub
         await Clients.Caller.SendAsync("system", $"You are now known as **{newNick}**.");
         await JoinChannel("#ircii", newNick); // auto-join default channel
     }
-
     // /join #channel
     public async Task JoinChannel(string channel, string? nick = null)
     {
@@ -64,7 +62,6 @@ public class IRCIIHub : Hub
             await Clients.Group(channel).SendAsync("join", nick, channel);
         }
     }
-
     // /part #channel
     public async Task PartChannel(string channel, string? nick = null)
     {
@@ -77,7 +74,6 @@ public class IRCIIHub : Hub
             await Clients.Group(channel).SendAsync("part", nick, channel);
         }
     }
-
     private async Task LeaveAllChannels(string nick)
     {
         foreach (var kv in _channels)

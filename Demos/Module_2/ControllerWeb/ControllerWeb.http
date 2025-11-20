@@ -3,6 +3,7 @@
 
 GET {{ControllerWeb_HostAddress}}/brands
 Accept: application/json
+#Accept: application/xml
 ###
 
 POST {{ControllerWeb_HostAddress}}/brands

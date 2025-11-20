@@ -9,7 +9,7 @@ POST {{MinimalWeb_HostAddress}}/brands
 Content-Type: application/json
 
 {
-  "name":"Test"
+  "Name":"Fuji"
 }
 ###
 

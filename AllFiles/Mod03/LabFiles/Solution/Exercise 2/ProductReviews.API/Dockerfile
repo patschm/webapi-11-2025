@@ -4,7 +4,8 @@ EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://+:80
 #ENV ASPNETCORE_DATABASE="Server=tcp:host.docker.internal,4444;Database=Mod1DB;User Id=sa;Password=Test_1234567;MultipleActiveResultSets=True;TrustServerCertificate=true"
-ENV ASPNETCORE_DATABASE="Server=mssql-ep;Database=Mod1DB;User Id=sa;Password=Test_1234567;MultipleActiveResultSets=True;TrustServerCertificate=true"
+#ENV ASPNETCORE_DATABASE="Server=mssql-ep;Database=Mod1DB;User Id=sa;Password=Test_1234567;MultipleActiveResultSets=True;TrustServerCertificate=true"
+ENV ASPNETCORE_DATABASE="Server=tcp:host.docker.internal,4444;Database=Mod1DB;User Id=sa;Password=Test_1234567;MultipleActiveResultSets=True;TrustServerCertificate=true"
 
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release

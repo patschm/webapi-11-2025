@@ -1,0 +1,6 @@
+@MinimalDI_HostAddress = https://localhost:7191
+
+GET {{MinimalDI_HostAddress}}/counter
+Accept: application/json
+
+###

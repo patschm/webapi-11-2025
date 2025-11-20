@@ -5,7 +5,7 @@ POST {{ControllerWeb_HostAddress}}/register
 Content-Type: application/json
 
 {
-  "email":"test@pasit.nl",
+  "email":"test22@pasit.nl",
   "password":"Test_12345"
 }
 ###
@@ -13,7 +13,7 @@ Content-Type: application/json
 POST {{ControllerWeb_HostAddress}}/login
 Content-Type: application/json
 {
-  "email":"test@pasit.nl",
+  "email":"test22@pasit.nl",
   "password":"Test_12345"
 }
 ###

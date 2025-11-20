@@ -13,6 +13,13 @@ Content-Type: application/json
 }
 ###
 
+POST {{ControllerWeb_HostAddress}}/brands?name=Jan
+Content-Type: application/json
+
+# {
+#   "name":"Test"
+# }
+###
 GET {{ControllerWeb_HostAddress}}/brands/{{id}}
 Accept: application/json
 ###
